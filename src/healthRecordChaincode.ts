@@ -1,4 +1,4 @@
-import { Context, Contract, Info, Transaction } from "fabric-contract-api";
+import { Context, Contract, Info, Returns, Transaction } from "fabric-contract-api";
 import stringify from "json-stringify-deterministic";
 import sortKeysRecursive from "sort-keys-recursive";
 
@@ -16,5 +16,12 @@ export class HealthRecordChaincode extends Contract{
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(record))))
     }
 
+    @Transaction(false)
+    @Returns('string')
+    public async GetUserHealthRecords(ctx: Context, userId: string): Promise<string> {
+
+        const res = await ctx.stub.getState(userId);
     
+        return JSON.stringify(res);
+    }
 }
