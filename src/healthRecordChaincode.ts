@@ -6,9 +6,10 @@ import { HealthRecord } from "./healthRecord";
 @Info({title: 'CreateHealthRecord', description: 'Smart contract to Create Health Record'})
 export class HealthRecordChaincode extends Contract{
     @Transaction()
-    public async CreateHealthRecord(ctx: Context, id: string): Promise<void> {
+    public async CreateHealthRecord(ctx: Context, id: string, title: string): Promise<void> {
         const record : HealthRecord = {
-            userId: id
+            userId: id,
+            title
         }
 
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(record))))
