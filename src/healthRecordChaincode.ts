@@ -1,16 +1,14 @@
 import { Context, Contract, Info, Returns, Transaction } from "fabric-contract-api";
 import stringify from "json-stringify-deterministic";
 import sortKeysRecursive from "sort-keys-recursive";
+import { HealthRecord } from "./healthRecord";
 
 @Info({title: 'CreateHealthRecord', description: 'Smart contract to Create Health Record'})
 export class HealthRecordChaincode extends Contract{
     @Transaction()
-    public async CreateHealthRecord(ctx: Context, id: string, title: string, description: string, fileHash: string): Promise<void> {
-        const record = {
-            title,
-            description,
-            fileHash,
-            date: new Date()
+    public async CreateHealthRecord(ctx: Context, id: string): Promise<void> {
+        const record : HealthRecord = {
+            userId: id
         }
 
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(record))))
