@@ -19,7 +19,6 @@ export class HealthRecordChaincode extends Contract{
     public async GetUserHealthRecords(ctx: Context, userId: string): Promise<string> {
 
         const res = await ctx.stub.getState(userId);
-    
-        return JSON.stringify(res);
+        return JSON.stringify(Buffer.from(res.toString()).toString('utf8'));
     }
 }
