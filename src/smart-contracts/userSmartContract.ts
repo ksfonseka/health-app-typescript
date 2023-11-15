@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 @Info({title: 'UserSmartContract', description: 'Smart contracts related to User'})
 export class UserSmartContract extends Contract{
     @Transaction(true)
-    public async Register(ctx: Context, email: string, password: string, firstName: string, lastName: string): Promise<void> {
+    public async Register(ctx: Context, userId: string, email: string, password: string, firstName: string, lastName: string): Promise<void> {
         const existUser: User = await this.UserExists(ctx, email)
         if (!existUser) {
             throw new Error(`The user ${email} already registered`);
@@ -17,13 +17,14 @@ export class UserSmartContract extends Contract{
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const user : User = {
+            userId,
             email,
             lastName,
             firstName,
             password: hashedPassword
         }
 
-        await ctx.stub.putState(email, Buffer.from(stringify(sortKeysRecursive(user))))
+        await ctx.stub.putState(userId, Buffer.from(stringify(sortKeysRecursive(user))))
     }
 
     @Transaction(false)
@@ -34,7 +35,7 @@ export class UserSmartContract extends Contract{
     }
 
     @Transaction(false)
-    public async Login(ctx: Context, email: string, password: string): Promise<void> {
+    public async Login(ctx: Context, email: string, password: string): Promise<string> {
         const user: User = await this.UserExists(ctx, email)
 
         const saltRounds = 10;
@@ -42,8 +43,10 @@ export class UserSmartContract extends Contract{
 
         if(user.password !== hashedPassword){
             throw new Error(`Password is incorrect!`);
+        }else{
+            return user.userId
         }
-
-
     }
+
+
 }
