@@ -1,5 +1,7 @@
-import {HealthRecordChaincode} from './healthRecordChaincode';
+import {HealthSmartContract} from './smart-contracts/healthSmartContract';
+export {HealthSmartContract} from './smart-contracts/healthSmartContract';
 
-export {HealthRecordChaincode} from './healthRecordChaincode';
+import {UserSmartContract} from "./smart-contracts/userSmartContract";
+export {UserSmartContract} from "./smart-contracts/userSmartContract";
 
-export const contracts: any[] = [HealthRecordChaincode];
+export const contracts: any[] = [HealthSmartContract, UserSmartContract];
