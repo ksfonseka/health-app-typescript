@@ -13,6 +13,9 @@ export class Medication {
     public note: string
 
     @Property()
+    public files?: Attachment []
+
+    @Property()
     public date: string
 
     @Property()
