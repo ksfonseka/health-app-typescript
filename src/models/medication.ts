@@ -14,4 +14,7 @@ export class Medication {
 
     @Property()
     public date: string
+
+    @Property()
+    public createdAt: string
 }
