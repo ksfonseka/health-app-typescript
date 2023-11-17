@@ -12,7 +12,7 @@ export class HealthSmartContract extends Contract{
             title,
             note,
             date,
-            createdAt: Date.now().toString()
+            createdAt: "1700216724575"
         }
 
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(record))))
