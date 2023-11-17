@@ -8,13 +8,4 @@ export class Medication {
 
     @Property()
     public title: string
-
-    @Property()
-    public note: string
-
-    @Property()
-    public date: string
-
-    @Property()
-    public createdAt: string
 }
