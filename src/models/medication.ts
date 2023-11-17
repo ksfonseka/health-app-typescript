@@ -10,9 +10,6 @@ export class Medication {
     public title: string
 
     @Property()
-    public file?: Attachment[]
-
-    @Property()
     public note: string
 
     @Property()
