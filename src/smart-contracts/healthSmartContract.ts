@@ -2,15 +2,17 @@ import { Context, Contract, Info, Returns, Transaction } from "fabric-contract-a
 import stringify from "json-stringify-deterministic";
 import sortKeysRecursive from "sort-keys-recursive";
 import { Medication } from "../models/medication";
+import {Attachment} from "../models/attachment";
 
 @Info({title: 'HealthSmartContract', description: 'Smart contracts related to Health Records'})
 export class HealthSmartContract extends Contract{
     @Transaction()
-    public async CreateHealthRecord(ctx: Context, id: string, title: string, date: string, note: string, createdAt: string): Promise<void> {
+    public async CreateHealthRecord(ctx: Context, id: string, title: string, date: string, files: Attachment[], note: string, createdAt: string): Promise<void> {
         const record : Medication = {
             userId: id,
             title,
             note,
+            files,
             date,
             createdAt
         }
