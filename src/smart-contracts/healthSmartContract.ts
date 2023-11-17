@@ -6,13 +6,13 @@ import { Medication } from "../models/medication";
 @Info({title: 'HealthSmartContract', description: 'Smart contracts related to Health Records'})
 export class HealthSmartContract extends Contract{
     @Transaction()
-    public async CreateHealthRecord(ctx: Context, id: string, title: string, date: string, note: string): Promise<void> {
+    public async CreateHealthRecord(ctx: Context, id: string, title: string, date: string, note: string, createdAt: string): Promise<void> {
         const record : Medication = {
             userId: id,
             title,
             note,
             date,
-            createdAt: "1700216724575"
+            createdAt
         }
 
         await ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(record))))
