@@ -22,11 +22,26 @@ export class HealthSmartContract extends Contract{
 
     @Transaction(false)
     @Returns('string')
-    public async GetUserHealthRecords(ctx: Context, userId: string, noOfRecords: number): Promise<string> {
+    public async GetUserHealthRecords(ctx: Context, userId: string, noOfRecords: number): Promise<Medication[]> {
         const query = `{"selector": {"userId": "${userId}"}}`;
 
         const res = await ctx.stub.getQueryResultWithPagination(query, noOfRecords)
-        return JSON.stringify(Buffer.from(res.toString()).toString('utf8'));
+        const allResults:Medication[] = []
+        while (true){
+            const next = await res.iterator.next()
+
+            if(next.value){
+                const jsonStr = next.value.value.toString()
+                allResults.push(JSON.parse(jsonStr))
+            }
+
+            if(next.done){
+
+                await res.iterator.close();
+                return allResults;
+            }
+        }
+
     }
 
 
